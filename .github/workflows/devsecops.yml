@@ -1,0 +1,35 @@
+name: DevSecOps Security Pipeline
+
+# Запускаем пайплайн каждый раз при git push в ветку main или master
+on:
+  push:
+    branches: ["main", "master"]
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1 скачиваем код с сервера github
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      # 2 запускаем Bandit
+      - name: Run Bandit SAST
+        run: |
+          pip install Bandit
+          bandit -r app.py
+
+      # 3 собираем Docker образ
+      - name: Build Docker image
+        run:  docker build -t devsecops-agent:latest .
+
+      # 4 запускаем Trivy
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'devsecops-agent:latest'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
