@@ -13,13 +13,21 @@ jobs:
       # 1 скачиваем код с сервера github
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       
+      # 1.5 запускаем сканер утечек секретов Gitleaks
+      - name: Run Gitleaks Secret Scanner
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # 2 запускаем Bandit
       - name: Run Bandit SAST
         run: |
           pip install Bandit
           bandit -r app.py
-
+    
       # 3 собираем Docker образ
       - name: Build Docker image
         run:  docker build -t devsecops-agent:latest .
