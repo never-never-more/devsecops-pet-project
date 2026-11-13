@@ -40,3 +40,12 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+
+      - name: Run Trivy IaC (Kubernates) scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: 'k8s-deployment.yaml'
+          format: table
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
