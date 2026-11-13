@@ -12,6 +12,9 @@ spec:
       labels:
         app: agent
     spec:
+      securityContext:
+        runAsNonRoot: true
+        ranAsUser: 1000
       containers:
       - name: agent-container
         image: devsecops-agent:latest
