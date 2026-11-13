@@ -14,8 +14,10 @@ spec:
     spec:
       containers:
       - name: agent-container
-        image: devsecops-agent:late
+        image: devsecops-agent:latest
         securityContext:
-          privileged: true
-          runAsUser: 0
-          
+          privileged: false
+          runAsNonRoot: true
+          ranAsUser: 1000
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
