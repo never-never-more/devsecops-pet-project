@@ -66,3 +66,13 @@ jobs:
             IMAGE_TAG=$(echo "ghcr.io/${{ github.repository }}:latest" | tr '[:upper:]' [:lower:])
             docker tag devsecops-agent:latest $IMAGE_TAG
             docker push $IMAGE_TAG
+      
+      - name: Run Integration Test (Send Telegram Alert)
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          docker run --rm \
+            -e TG_BOT_TOKEN="$TG_BOT_TOKEN" \
+            -e TG_CHAT_ID="$TG_CHAT_ID" \
+            devsecops-agent:latest
