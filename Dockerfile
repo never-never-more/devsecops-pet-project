@@ -4,7 +4,7 @@ RUN apk update && apk upgrade --no-cache
 
 WORKDIR /app
 COPY req.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r req.txt
 
 COPY app.py auth.log /app/
 CMD ["python", "app.py"]
