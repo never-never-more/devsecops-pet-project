@@ -13,7 +13,7 @@ def send_telegram_alert(message):
         print("[WARN] Токен или Chat ID не заданы. Уведомление в Telegram пропущено.")
         return
 
-    url = f"https://telegram.org{TG_TOKEN}/sendMessage"
+    url = f"https://telegram.org/{TG_TOKEN}/sendMessage"
     payload = {"chat_id": TG_CHAT_ID, "text": message}
     
     try:
