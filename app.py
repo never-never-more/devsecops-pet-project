@@ -19,7 +19,7 @@ def send_telegram_alert(message):
     try:
         response = requests.post(url, json=payload, timeout=5)
         response.raise_for_status()
-        print("[OK] Уведомление успешно отправлено в Telegram.")
+        print(f"[OK] Ответ сервера Telegram: {response.text}")
     except requests.RequestException as error:
         print(f"[ERROR] Ошибка отправки в Telegram: {error}")
 
